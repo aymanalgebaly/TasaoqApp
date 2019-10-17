@@ -1,5 +1,6 @@
 package com.compubase.tasaoq.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import com.compubase.tasaoq.ui.fragments.CategoriesFragment;
 import com.compubase.tasaoq.ui.fragments.FavoritesFragment;
 import com.compubase.tasaoq.ui.fragments.HomeFragment;
 import com.compubase.tasaoq.ui.fragments.MostSalesFragment;
+import com.compubase.tasaoq.ui.fragments.ProfileFragment;
 import com.compubase.tasaoq.ui.fragments.TopRatedFragment;
 
 import java.util.Objects;
@@ -57,6 +59,15 @@ public class HomeActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        ImageView img_profile = header.findViewById(R.id.img_profile);
+        img_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileFragment profileFragment = new ProfileFragment();
+                displaySelectedFragment(profileFragment);
+            }
+        });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -154,5 +165,11 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void displaySelectedFragmentWithBack(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment);
+        fragmentTransaction.addToBackStack(null).commit();
     }
 }

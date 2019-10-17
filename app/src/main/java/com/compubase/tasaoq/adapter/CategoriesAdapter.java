@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.compubase.tasaoq.R;
 import com.compubase.tasaoq.model.CategoriesModel;
+import com.compubase.tasaoq.ui.activities.HomeActivity;
+import com.compubase.tasaoq.ui.fragments.CategorySelectedFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,17 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         viewHolder.title.setText(categoriesModel.getTitle());
 
         Glide.with(context).load(categoriesModel.getImg()).placeholder(R.drawable.avengers).into(viewHolder.img);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeActivity homeActivity = (HomeActivity) context;
+
+                CategorySelectedFragment categorySelectedFragment = new CategorySelectedFragment();
+
+                homeActivity.displaySelectedFragmentWithBack(categorySelectedFragment);
+            }
+        });
     }
 
     @Override

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.CategorySelectedFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="50dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_search"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فلتر"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_filter_list_black_24dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/colorPrimary">
+
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فرز"
+                android:drawablePadding="10dp"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:drawableStart="@drawable/ic_sort_black_24dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>
