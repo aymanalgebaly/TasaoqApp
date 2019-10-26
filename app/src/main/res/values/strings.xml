@@ -31,4 +31,9 @@
     <string name="top_rated">Top Rated</string>
     <string name="most_sales">Most Sales</string>
     <string name="about_us">About us</string>
+    <string name="name">Name</string>
+    <string name="e_mail">E-Mail</string>
+    <string name="phone_number">Phone number</string>
+    <string name="password">Password</string>
+    <string name="registration">Registration</string>
 </resources>
