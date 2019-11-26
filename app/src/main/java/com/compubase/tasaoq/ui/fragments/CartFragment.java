@@ -177,8 +177,10 @@ public class CartFragment extends Fragment {
 
             String idUser = ""; // Shof B2a Btgebo Mnen
             String address = ""; // Shof B2a Btgebo Mnen
+            String totalPrice = ""; // Shof B2a Btgebo Mnen
 
-            StringBuilder GET_JSON_DATA_HTTP_URL = new StringBuilder("http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" + idUser + "&address=" + address + "&totle_price=");
+
+            StringBuilder GET_JSON_DATA_HTTP_URL = new StringBuilder("http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" + idUser + "&address=" + address + "&totle_price=" + totalPrice);
 
 
             for(int i = 0;i<=productsModelList.size();i++)
