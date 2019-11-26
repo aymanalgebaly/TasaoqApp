@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private Integer id;
     private String name, mail, phonenumber, img;
     private SharedPreferences preferences;
+    private boolean login_user;
+    private String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,16 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        preferences = getSharedPreferences("user", MODE_PRIVATE);
+        login_user = preferences.getBoolean("login", true);
 
+        if (login_user){
+            startActivity(new Intent(MainActivity.this,HomeActivity.class));
+        }else {
+
+        }
+
+        progressBar.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.txt_forgot, R.id.btn_login, R.id.txt_register, R.id.img_instagram, R.id.img_twitter, R.id.img_facebook, R.id.img_google_plus})
@@ -97,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loginValidate() {
         String username = edUsername.getText().toString();
-        String pass = edPassword.getText().toString();
+        pass = edPassword.getText().toString();
 
         if (TextUtils.isEmpty(username)) {
             edUsername.setError("اسم المستخدم مطلوب");
@@ -120,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         List<LoginModel> loginModelList = Arrays.asList(gson.fromJson(response.body().string(), LoginModel[].class));
                         if (response.isSuccessful()) {
 
-                            progressBar.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.VISIBLE);
 
                             name = loginModelList.get(0).getName();
                             mail = loginModelList.get(0).getEmail();
@@ -130,9 +141,10 @@ public class MainActivity extends AppCompatActivity {
 
                             sharedLogin();
 
-//                            Toast.makeText(LoginActivity.this, fb, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                            finish();
 
-                            sharedLogin();
+//                            Toast.makeText(LoginActivity.this, fb, Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -162,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("email", mail);
         editor.putString("phone", phonenumber);
         editor.putString("image", img);
+        editor.putString("password", pass);
 
         editor.apply();
     }

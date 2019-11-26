@@ -1,13 +1,8 @@
 package com.compubase.tasaoq.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +18,8 @@ import com.compubase.tasaoq.R;
 import com.compubase.tasaoq.data.API;
 import com.compubase.tasaoq.helper.RetrofitClient;
 import com.compubase.tasaoq.helper.TinyDB;
+import com.compubase.tasaoq.model.CategoryModel;
 import com.compubase.tasaoq.model.ProductsModel;
-import com.compubase.tasaoq.model.TopRatedModel;
 import com.compubase.tasaoq.ui.activities.HomeActivity;
 import com.compubase.tasaoq.ui.fragments.SelectedItemFragment;
 
@@ -38,17 +33,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHolder> {
+public class CategorySelectedAdapter extends RecyclerView.Adapter<CategorySelectedAdapter.ViewHolder> {
     private Context context;
-    private List<ProductsModel>productsModels;
+    private List<CategoryModel>categoryModelList;
     private SharedPreferences preferences;
     private String id_user;
 
-    public TopRatedAdapter(List<ProductsModel> productsModels) {
-        this.productsModels = productsModels;
+    public CategorySelectedAdapter(List<CategoryModel> categoryModels) {
+        this.categoryModelList = categoryModels;
     }
 
-    public TopRatedAdapter(Context context) {
+    public CategorySelectedAdapter(Context context) {
         this.context = context;
     }
 
@@ -62,16 +57,16 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
-        final ProductsModel productsModel = productsModels.get(i);
+        final  CategoryModel categoryModel = categoryModelList.get(i);
 
-        viewHolder.txt_discount.setText(productsModel.getPriceDiscount());
+        viewHolder.txt_discount.setText(categoryModel.getPriceDiscount());
 //        viewHolder.offer_sale.setText(productsModel.getTxt_sale_offer());
-        viewHolder.offer.setText(productsModel.getPrice());
-        viewHolder.rate_num.setText(productsModel.getNumberRate());
-        viewHolder.title.setText(productsModel.getTitle());
+        viewHolder.offer.setText(categoryModel.getPrice());
+        viewHolder.rate_num.setText(categoryModel.getNumberRate());
+        viewHolder.title.setText(categoryModel.getTitle());
 
 //        Glide.with(context).load(productsModel.getImg1()).placeholder(R.drawable.heart).into(viewHolder.heart);
-//        Glide.with(context).load(productsModel.getImg1()).placeholder(R.drawable.anti_man).into(viewHolder.img_item);
+        Glide.with(context).load(categoryModel.getImg1()).placeholder(R.drawable.anti_man).into(viewHolder.img_item);
 
         preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
 
@@ -87,21 +82,22 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHo
                 homeActivity.displaySelectedFragmentWithBack(selectedItemFragment);
 
                 TinyDB tinyDB = new TinyDB(context);
-                tinyDB.putString("pic",productsModel.getImg1());
-                tinyDB.putString("pic1",productsModel.getImg2());
-                tinyDB.putString("pic2",productsModel.getImg3());
-                tinyDB.putString("name",productsModel.getTitle());
-                tinyDB.putString("rate",productsModel.getNumberRate());
-                tinyDB.putString("price",productsModel.getPrice());
-                tinyDB.putString("des",productsModel.getDes());
-                tinyDB.putString("dis",productsModel.getPriceDiscount());
+                tinyDB.putString("pic",categoryModel.getImg1());
+                tinyDB.putString("pic1",categoryModel.getImg2());
+                tinyDB.putString("pic2",categoryModel.getImg3());
+                tinyDB.putString("name",categoryModel.getTitle());
+                tinyDB.putString("rate",categoryModel.getNumberRate());
+                tinyDB.putString("price",categoryModel.getPrice());
+                tinyDB.putString("des",categoryModel.getDes());
+                tinyDB.putString("dis",categoryModel.getPriceDiscount());
+                tinyDB.putString("cat", String.valueOf(categoryModel));
             }
         });
         viewHolder.heart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (viewHolder.heart.isChecked()){
-                    addToFav(productsModel.getId());
+                    addToFav(categoryModel.getId());
                 }
             }
         });
@@ -136,11 +132,11 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return productsModels != null ? productsModels.size():0;
+        return categoryModelList != null ? categoryModelList.size():0;
     }
 
-    public void setAdapter(ArrayList<ProductsModel> topRatedModels) {
-        this.productsModels = topRatedModels;
+    public void setAdapter(ArrayList<CategoryModel> categoryModelArrayList) {
+        this.categoryModelList = categoryModelArrayList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

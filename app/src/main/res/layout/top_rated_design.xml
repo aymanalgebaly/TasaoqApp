@@ -39,10 +39,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="30dp"
+            <CheckBox
+                android:layout_width="40dp"
                 android:layout_height="30dp"
-                android:background="@drawable/heart"
+                android:button="@drawable/fav_design"
                 android:id="@+id/img_heart"/>
 
             <ImageView

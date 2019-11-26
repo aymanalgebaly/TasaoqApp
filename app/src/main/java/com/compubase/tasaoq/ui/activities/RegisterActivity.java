@@ -56,9 +56,10 @@ public class RegisterActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.img_register:
 
-                validate();
                 break;
             case R.id.btn_register:
+                validate();
+
                 break;
         }
     }
@@ -88,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                     try {
+                        assert response.body() != null;
                         String string = response.body().string();
 
                         if (string.equals("True")){
@@ -100,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                    Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

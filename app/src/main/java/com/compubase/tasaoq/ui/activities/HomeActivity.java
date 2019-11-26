@@ -1,6 +1,7 @@
 package com.compubase.tasaoq.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,19 +19,24 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.compubase.tasaoq.R;
+import com.compubase.tasaoq.model.ProductsModel;
 import com.compubase.tasaoq.ui.fragments.AboutUsFragment;
+import com.compubase.tasaoq.ui.fragments.CartFragment;
 import com.compubase.tasaoq.ui.fragments.CategoriesFragment;
 import com.compubase.tasaoq.ui.fragments.FavoritesFragment;
 import com.compubase.tasaoq.ui.fragments.HomeFragment;
 import com.compubase.tasaoq.ui.fragments.MostSalesFragment;
 import com.compubase.tasaoq.ui.fragments.ProfileFragment;
 import com.compubase.tasaoq.ui.fragments.TopRatedFragment;
+import com.nex3z.notificationbadge.NotificationBadge;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,11 +44,13 @@ public class HomeActivity extends AppCompatActivity
     @BindView(R.id.cart_img)
     ImageView cartImg;
     @BindView(R.id.cart_badge)
-    TextView cartBadge;
+    NotificationBadge cartBadge;
     @BindView(R.id.rel_toolbar)
     RelativeLayout relToolbar;
+    private SharedPreferences preferences;
 
-    int mCartItemCount = 10;
+    int mCartItemCount ;
+    private Realm realm;
 //    @BindView(R.id.imageSlider_flip)
 //    ViewFlipper imageSliderFlip;
 
@@ -56,14 +64,24 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+        preferences = getSharedPreferences("user",MODE_PRIVATE);
+        String name1 = preferences.getString("name", "");
+        String email = preferences.getString("email", "");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         ImageView img_profile = header.findViewById(R.id.img_profile);
+        TextView name = header.findViewById(R.id.header_name);
+        TextView mail = header.findViewById(R.id.textView);
+
+        name.setText(name1);
+        mail.setText(email);
+
         img_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ProfileFragment profileFragment = new ProfileFragment();
                 displaySelectedFragment(profileFragment);
             }
@@ -75,28 +93,16 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        setupBadge();
-
         HomeFragment homeFragment = new HomeFragment();
         displaySelectedFragment(homeFragment);
+
+        Realm.init(this);
+        realm = Realm.getDefaultInstance();
+        RealmResults<ProductsModel> all = realm.where(ProductsModel.class).findAll();
+        cartBadge.setNumber(all.size());
+
     }
 
-
-    private void setupBadge() {
-
-        if (cartBadge != null) {
-            if (mCartItemCount == 0) {
-                if (cartBadge.getVisibility() != View.GONE) {
-                    cartBadge.setVisibility(View.GONE);
-                }
-            } else {
-                cartBadge.setText(String.valueOf(Math.min(mCartItemCount, 99)));
-                if (cartBadge.getVisibility() != View.VISIBLE) {
-                    cartBadge.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -122,27 +128,27 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_favorite) {
 
             FavoritesFragment favoritesFragment = new FavoritesFragment();
-            displaySelectedFragment(favoritesFragment);
+            displaySelectedFragmentWithBack(favoritesFragment);
 
         } else if (id == R.id.nav_categories) {
 
             CategoriesFragment categoriesFragment = new CategoriesFragment();
-            displaySelectedFragment(categoriesFragment);
+            displaySelectedFragmentWithBack(categoriesFragment);
 
         } else if (id == R.id.nav_star) {
 
             TopRatedFragment topRatedFragment = new TopRatedFragment();
-            displaySelectedFragment(topRatedFragment);
+            displaySelectedFragmentWithBack(topRatedFragment);
 
         } else if (id == R.id.nav_most_sales) {
 
             MostSalesFragment mostSalesFragment = new MostSalesFragment();
-            displaySelectedFragment(mostSalesFragment);
+            displaySelectedFragmentWithBack(mostSalesFragment);
 
         } else if (id == R.id.nav_about_us) {
 
             AboutUsFragment aboutUsFragment = new AboutUsFragment();
-            displaySelectedFragment(aboutUsFragment);
+            displaySelectedFragmentWithBack(aboutUsFragment);
 
         }
 
@@ -156,11 +162,19 @@ public class HomeActivity extends AppCompatActivity
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.cart_img:
+                emptyCart();
                 break;
             case R.id.cart_badge:
                 break;
         }
     }
+
+    private void emptyCart() {
+        cartBadge.setText("0");
+        CartFragment cartFragment = new CartFragment();
+        displaySelectedFragmentWithBack(cartFragment);
+    }
+
     public void displaySelectedFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
@@ -171,5 +185,12 @@ public class HomeActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.addToBackStack(null).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        RealmResults<ProductsModel> all = realm.where(ProductsModel.class).findAll();
+        cartBadge.setNumber(all.size());
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.compubase.tasaoq.R;
+import com.compubase.tasaoq.helper.TinyDB;
 import com.compubase.tasaoq.model.CategoriesModel;
 import com.compubase.tasaoq.ui.activities.HomeActivity;
 import com.compubase.tasaoq.ui.fragments.CategorySelectedFragment;
@@ -41,9 +42,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
-        CategoriesModel categoriesModel = categoriesModelList.get(i);
+        final CategoriesModel categoriesModel = categoriesModelList.get(i);
 
         viewHolder.title.setText(categoriesModel.getTitle());
 
@@ -53,6 +54,11 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             @Override
             public void onClick(View v) {
                 HomeActivity homeActivity = (HomeActivity) context;
+
+                TinyDB tinyDB = new TinyDB(context);
+                tinyDB.putString("title",categoriesModel.getTitle());
+                tinyDB.putInt("img",categoriesModel.getImg());
+                tinyDB.putObject("categories",categoriesModel);
 
                 CategorySelectedFragment categorySelectedFragment = new CategorySelectedFragment();
 

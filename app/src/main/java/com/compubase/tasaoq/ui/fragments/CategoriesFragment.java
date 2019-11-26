@@ -63,10 +63,10 @@ public class CategoriesFragment extends Fragment {
 
         ArrayList<CategoriesModel> categoriesModels = new ArrayList<>();
 
-        int[] image = new int[]{R.drawable.titanic,R.drawable.avengers,R.drawable.anti_man,R.drawable.titanic,
-                R.drawable.avengers,R.drawable.anti_man};
+        int[] image = new int[]{R.drawable.kago,R.drawable.loz,R.drawable.fozdo2,R.drawable.leb,
+                R.drawable.dwar_elshams,R.drawable.sodany,R.drawable.amar_eldein};
 
-        String[]title = new String[]{"aaa","bbb","ccc","ddd","eee","fff","ggg"};
+        String[]title = new String[]{"كاجو","لوز","فزدق","لب","زيوت","سودانى","قمر الدين"};
 
         for (int i = 0; i <image.length ; i++) {
 

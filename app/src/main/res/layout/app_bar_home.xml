@@ -27,8 +27,8 @@
                 android:id="@+id/rel_toolbar">
 
                 <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:id="@+id/cart_img"
                     android:layout_centerVertical="true"
                     android:layout_gravity="end"
@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/tasaoq"
+                    android:text="@string/lammah"
                     android:layout_centerVertical="true"
                     android:gravity="end"
                     android:textStyle="bold"
@@ -47,15 +47,11 @@
                     android:textSize="20sp"/>
 
 
-                <TextView
+                <com.nex3z.notificationbadge.NotificationBadge
                     android:id="@+id/cart_badge"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/badge_background"
-                    android:padding="3dp"
-                    android:textColor="@android:color/white"
-                    android:text="0"
                     android:textSize="10sp"/>
 
             </RelativeLayout>
