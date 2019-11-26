@@ -4,6 +4,7 @@ package com.compubase.tasaoq.ui.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,15 +17,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.compubase.tasaoq.R;
 import com.compubase.tasaoq.adapter.CartAdapter;
 import com.compubase.tasaoq.data.API;
+import com.compubase.tasaoq.helper.RequestHandler;
 import com.compubase.tasaoq.helper.RetrofitClient;
 import com.compubase.tasaoq.model.ProductsModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -58,8 +65,11 @@ public class CartFragment extends Fragment {
     private int totalPrice = 0;
 
     Realm realm;
+
     private List<ProductsModel>productsModels;
+
     private List<ProductsModel>productsModelList = new ArrayList<>();
+
     private CartAdapter cartAdapter;
 
     private String [] list;
@@ -70,8 +80,8 @@ public class CartFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -162,18 +172,62 @@ public class CartFragment extends Fragment {
         confirmOrder();
     }
 
+    private void functionVolly()
+    {
+
+            String idUser = ""; // Shof B2a Btgebo Mnen
+            String address = ""; // Shof B2a Btgebo Mnen
+
+            StringBuilder GET_JSON_DATA_HTTP_URL = new StringBuilder("http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" + idUser + "&address=" + address + "&totle_price=");
+
+
+            for(int i = 0;i<=productsModelList.size();i++)
+            {
+                GET_JSON_DATA_HTTP_URL.append("&id_product=").append(String.valueOf(productsModelList.get(i).getId()));
+            }
+
+            Toast.makeText(getActivity(), GET_JSON_DATA_HTTP_URL, Toast.LENGTH_SHORT).show();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, GET_JSON_DATA_HTTP_URL.toString(),
+
+                    new com.android.volley.Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+
+                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+
+            });
+
+            RequestHandler.getInstance(getActivity()).addToRequestQueue(stringRequest);
+
+
+    }
+
     private void confirmOrder() {
-        String[]title = new String[]{"كاجو","لوز"};
+
+        String[] title = new String[]{"كاجو","لوز"};
 
         List<String>stringList = new ArrayList<>();
+
         stringList.add("one");
         stringList.add("two");
+
         Retrofit retrofit = RetrofitClient.getInstant();
         API api = retrofit.create(API.class);
         Call<ResponseBody> responseBodyCall = api.insertOrders("2","hhhh","5000",stringList);
         responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()){
 
                     Toast.makeText(getActivity(), "order insert", Toast.LENGTH_SHORT).show();

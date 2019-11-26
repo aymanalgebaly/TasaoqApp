@@ -1,13 +1,9 @@
 
 package com.compubase.tasaoq.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import io.realm.Realm;
 import io.realm.RealmObject;
 
 public class ProductsModel extends RealmObject {
