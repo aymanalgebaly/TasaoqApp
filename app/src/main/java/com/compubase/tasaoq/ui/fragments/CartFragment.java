@@ -192,7 +192,8 @@ public class CartFragment extends Fragment {
             StringBuilder GET_JSON_DATA_HTTP_URL = new StringBuilder( "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
                             "2" + "&address=" + "sample" + "&totle_price=" + "250" );
 
-        String sample =  "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=3&address=sample&totle_price=250&id_product=1&id_product=2&id_product=3";
+        String sample =  "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?" +
+                "id_user=3&address=sample&totle_price=250&id_product=1&id_product=2&id_product=3";
 
 
             for(int i = 0;i<=productsModelList.size()-1;i++)
@@ -205,7 +206,7 @@ public class CartFragment extends Fragment {
 
         Log.i( "functionVolly",GET_JSON_DATA_HTTP_URL.toString());
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, sample,
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, sample,
 
                     new com.android.volley.Response.Listener<String>() {
                         @Override
@@ -224,7 +225,7 @@ public class CartFragment extends Fragment {
                 public void onErrorResponse(VolleyError error) {
 
 
-                    Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
 
                 }
 

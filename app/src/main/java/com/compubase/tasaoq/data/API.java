@@ -54,7 +54,7 @@ public interface API {
             @Field("id_user") String id_user,
             @Field("address") String address,
             @Field("totle_price") String totle_price,
-            @Field("orders[]") List<String> stringList);
+            @Field("id_product[]") List<String> stringList);
 
     @FormUrlEncoded
     @POST("insert_fav")
