@@ -54,6 +54,7 @@ public class SelectedItemFragment extends Fragment {
 
     private int check = 0;
     private Realm realm;
+    private String id;
 
 
     public SelectedItemFragment() {
@@ -78,6 +79,7 @@ public class SelectedItemFragment extends Fragment {
         pic2 = tinyDB.getString("pic2");
         pic3 = tinyDB.getString("pic3");
         dis = tinyDB.getString("dis");
+        id = tinyDB.getString("id");
 
         Realm.init(Objects.requireNonNull(getActivity()));
         realm = Realm.getDefaultInstance();
@@ -133,6 +135,7 @@ public class SelectedItemFragment extends Fragment {
                 productsModel.setDes(des);
                 productsModel.setImg1(pic);
                 productsModel.setNumberRate(rate);
+                productsModel.setId(Integer.valueOf(id));
 
 
             }

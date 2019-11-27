@@ -52,7 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolderCart
     public void onBindViewHolder(@NonNull final ViewHolderCart viewHolderCart, @SuppressLint("RecyclerView") final int i) {
         final ProductsModel productsModel = productsModels.get(i);
 
-        Glide.with(context).load(productsModel.getImg1()).placeholder(R.drawable.fastakni_logo).into(viewHolderCart.img);
+//        Glide.with(context).load(productsModel.getImg1()).placeholder(R.drawable.fastakni_logo).into(viewHolderCart.img);
 
         viewHolderCart.title.setText(productsModel.getTitle());
         viewHolderCart.total_price.setText(productsModel.getPrice());

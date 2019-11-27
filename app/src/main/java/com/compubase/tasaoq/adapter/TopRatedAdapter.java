@@ -95,6 +95,7 @@ public class TopRatedAdapter extends RecyclerView.Adapter<TopRatedAdapter.ViewHo
                 tinyDB.putString("price",productsModel.getPrice());
                 tinyDB.putString("des",productsModel.getDes());
                 tinyDB.putString("dis",productsModel.getPriceDiscount());
+                tinyDB.putString("id", String.valueOf(productsModel.getId()));
             }
         });
         viewHolder.heart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -2,7 +2,9 @@ package com.compubase.tasaoq.ui.fragments;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,7 @@ import com.compubase.tasaoq.data.API;
 import com.compubase.tasaoq.helper.RequestHandler;
 import com.compubase.tasaoq.helper.RetrofitClient;
 import com.compubase.tasaoq.model.ProductsModel;
+import com.compubase.tasaoq.ui.activities.HomeActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,6 +66,7 @@ public class CartFragment extends Fragment {
     Unbinder unbinder;
 
     private int totalPrice = 0;
+    private SharedPreferences preferences;
 
     Realm realm;
 
@@ -73,6 +77,7 @@ public class CartFragment extends Fragment {
     private CartAdapter cartAdapter;
 
     private String [] list;
+    private String id;
 
     public CartFragment() {
         // Required empty public constructor
@@ -88,6 +93,9 @@ public class CartFragment extends Fragment {
 
         Realm.init(Objects.requireNonNull(getContext()));
         realm = Realm.getDefaultInstance();
+
+        preferences = Objects.requireNonNull(getActivity()).getSharedPreferences("user", Context.MODE_PRIVATE);
+        id = preferences.getString("id", "");
 
         setupRecycler();
         showData();
@@ -143,6 +151,7 @@ public class CartFragment extends Fragment {
             productsModel.setDes(Objects.requireNonNull(all.get(i)).getDes());
             productsModel.setImg1(Objects.requireNonNull(all.get(i)).getImg1());
             productsModel.setPrice(Objects.requireNonNull(all.get(i)).getPrice());
+            productsModel.setId(Objects.requireNonNull(all.get(i)).getId());
 
             productsModelList.add(productsModel);
 
@@ -169,21 +178,23 @@ public class CartFragment extends Fragment {
 
     @OnClick(R.id.btn_confirm)
     public void onViewClicked() {
-        confirmOrder();
+        functionVolly();
     }
 
     private void functionVolly()
     {
 
-            String idUser = ""; // Shof B2a Btgebo Mnen
+//            String idUser = ""; // Shof B2a Btgebo Mnen
             String address = ""; // Shof B2a Btgebo Mnen
-            String totalPrice = ""; // Shof B2a Btgebo Mnen
+//            String totalPrice = ""; // Shof B2a Btgebo Mnen
 
 
-            StringBuilder GET_JSON_DATA_HTTP_URL = new StringBuilder("http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" + idUser + "&address=" + address + "&totle_price=" + totalPrice);
+            StringBuilder GET_JSON_DATA_HTTP_URL =
+                    new StringBuilder("http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
+                            id + "&address=" + "" + "&totle_price=" + totalPrice);
 
 
-            for(int i = 0;i<=productsModelList.size();i++)
+            for(int i = 0;i<=productsModelList.size()-1;i++)
             {
                 GET_JSON_DATA_HTTP_URL.append("&id_product=").append(String.valueOf(productsModelList.get(i).getId()));
             }
@@ -196,7 +207,12 @@ public class CartFragment extends Fragment {
                         @Override
                         public void onResponse(String response) {
 
-                            Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                            if (response.equals("True")){
+                                HomeActivity homeActivity = (HomeActivity)getActivity();
+                                ConfirmFragment confirmFragment = new ConfirmFragment();
+                                Objects.requireNonNull(homeActivity).displaySelectedFragmentWithBack(confirmFragment);
+                            }
 
                         }
                     }, new com.android.volley.Response.ErrorListener() {
