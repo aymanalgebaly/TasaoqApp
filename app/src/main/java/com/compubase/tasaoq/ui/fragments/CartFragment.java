@@ -193,6 +193,7 @@ public class CartFragment extends Fragment {
                     new StringBuilder("http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
                             id + "&address=" + "" + "&totle_price=" + totalPrice);
 
+            // "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=3&address=sample&totle_price=250&id_product=1&id_product=2&id_product=3
 
             for(int i = 0;i<=productsModelList.size()-1;i++)
             {
