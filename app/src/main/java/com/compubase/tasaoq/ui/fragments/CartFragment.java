@@ -190,17 +190,22 @@ public class CartFragment extends Fragment {
 
 
             StringBuilder GET_JSON_DATA_HTTP_URL =
-                    new StringBuilder("http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
-                            id + "&address=" + "" + "&totle_price=" + totalPrice);
+                    new StringBuilder( "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
+                            "2" + "&address=" + "sample" + "&totle_price=" + "250" );
 
-            // "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=3&address=sample&totle_price=250&id_product=1&id_product=2&id_product=3
+//        "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
+//                id + "&address=" + "" + "&totle_price=" + totalPrice
+
 
             for(int i = 0;i<=productsModelList.size()-1;i++)
             {
-                GET_JSON_DATA_HTTP_URL.append("&id_product=").append(String.valueOf(productsModelList.get(i).getId()));
+                GET_JSON_DATA_HTTP_URL.append("&id_product=").append(String.valueOf("&id_product=" + "1"
+                        + "&id_product=" + "2" + "&id_product=" + "3"));
             }
 
             Toast.makeText(getActivity(), GET_JSON_DATA_HTTP_URL, Toast.LENGTH_SHORT).show();
+
+        Log.i( "functionVolly",GET_JSON_DATA_HTTP_URL.toString());
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, GET_JSON_DATA_HTTP_URL.toString(),
 
