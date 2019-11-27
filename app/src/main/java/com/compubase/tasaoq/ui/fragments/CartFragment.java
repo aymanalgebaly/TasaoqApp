@@ -189,12 +189,10 @@ public class CartFragment extends Fragment {
 //            String totalPrice = ""; // Shof B2a Btgebo Mnen
 
 
-            StringBuilder GET_JSON_DATA_HTTP_URL =
-                    new StringBuilder( "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
+            StringBuilder GET_JSON_DATA_HTTP_URL = new StringBuilder( "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
                             "2" + "&address=" + "sample" + "&totle_price=" + "250" );
 
-//        "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=" +
-//                id + "&address=" + "" + "&totle_price=" + totalPrice
+        String sample =  "http://fastini.alosboiya.com.sa/store_app.asmx/insert_orders?id_user=3&address=sample&totle_price=250&id_product=1&id_product=2&id_product=3";
 
 
             for(int i = 0;i<=productsModelList.size()-1;i++)
@@ -207,7 +205,7 @@ public class CartFragment extends Fragment {
 
         Log.i( "functionVolly",GET_JSON_DATA_HTTP_URL.toString());
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, GET_JSON_DATA_HTTP_URL.toString(),
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, sample,
 
                     new com.android.volley.Response.Listener<String>() {
                         @Override
